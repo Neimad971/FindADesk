@@ -17,6 +17,8 @@ public class User
 	
 	private String password;
 	
+	private String bookingNumber; // maybe a list
+	
 
 	public String getId() 
 	{
@@ -87,5 +89,17 @@ public class User
 	public void setPassword(String password) 
 	{
 		this.password = password;
+	}
+	
+	
+	public String getBookingNumber() 
+	{
+		return bookingNumber;
+	}
+
+	
+	public void setBookingNumber(String bookingNumber) 
+	{
+		this.bookingNumber = bookingNumber;
 	}
 }
