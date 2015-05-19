@@ -1,21 +1,38 @@
 package fr.esgi.findadesk.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.joda.time.DateTime;
 
+@Entity
+@Table(name = "workspace")
 public class Workspace 
 {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String id;
 	
+	@NotNull
 	private String type;
 	
+	@NotNull
 	private double price;
 	
+	@NotNull
 	private int seatsNumber;
 	
+	@NotNull
 	private DateTime availableDate;
 
+	@NotNull
 	private String description;
 	
+	@NotNull
 	private String bookedByUser;
 
 	
