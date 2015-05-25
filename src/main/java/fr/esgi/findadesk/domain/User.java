@@ -1,91 +1,151 @@
 package fr.esgi.findadesk.domain;
 
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
-@Entity
-@Table(name = "user")
-public class User {
+@Entity(name = "user")
+public class User 
+{
+	
 	
 	@Id
+	@Column(name = "user_id", nullable = false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String id;
+	private Long userId;
 
-	@NotNull
+	
+	@Column(name = "first_name", nullable = false,length = 32)
 	private String firstName;
 
-	@NotNull
+	
+	@Column(name = "last_name", nullable = false,length = 32)
 	private String lastName;
-
-	@NotNull
+	
+	
+	@Column(name = "address", nullable = false,length = 255)
 	private String address;
-
-	@NotNull
+	
+	
+	@Column(name = "email", nullable = false,length = 45)
 	private String email;
 
-	@NotNull
+	
+	@Column(name = "password", nullable = false,length = 32)
 	private String password;
+	
+	
+	@Column(name = "telephone_number", nullable = true,length = 15)
+	private String phoneNumber;
+	
+	
+	@Column(name = "company", nullable = true,length = 32)
+	private String company;
+	
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name="booking", joinColumns=
+    	@JoinColumn(name="user_id", referencedColumnName="user_id"),inverseJoinColumns=
+    	@JoinColumn(name="workspace_id", referencedColumnName="workspace_id")
+    )
+	private List<Workspace> bookedWorkspace;
+	
 
-	@NotNull
-	private String bookingNumber; // maybe a list
-
-	public String getId() {
-		return id;
+	public Long getUserId() 
+	{
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setId(Long userId) 
+	{
+		this.userId = userId;
 	}
 
-	public String getFirstName() {
+	public String getFirstName() 
+	{
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	public void setFirstName(String firstName) 
+	{
 		this.firstName = firstName;
 	}
 
-	public String getLastName() {
+	public String getLastName() 
+	{
 		return lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public void setLastName(String lastName) 
+	{
 		this.lastName = lastName;
 	}
 
-	public String getAddress() {
+	public String getAddress() 
+	{
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(String address) 
+	{
 		this.address = address;
 	}
 
-	public String getEmail() {
+	public String getEmail() 
+	{
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email) 
+	{
 		this.email = email;
 	}
 
-	public String getPassword() {
+	public String getPassword() 
+	{
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(String password) 
+	{
 		this.password = password;
 	}
 
-	public String getBookingNumber() {
-		return bookingNumber;
+	public String getPhoneNumber() 
+	{
+		return phoneNumber;
 	}
 
-	public void setBookingNumber(String bookingNumber) {
-		this.bookingNumber = bookingNumber;
+	public void setPhoneNumber(String phoneNumber) 
+	{
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getCompany() 
+	{
+		return company;
+	}
+
+	public void setCompany(String company) 
+	{
+		this.company = company;
+	}
+
+	public List<Workspace> getBookedWorkspace() 
+	{
+		return bookedWorkspace;
+	}
+
+	public void setBookedWorkspace(List<Workspace> bookedWorkspace) 
+	{
+		this.bookedWorkspace = bookedWorkspace;
 	}
 }

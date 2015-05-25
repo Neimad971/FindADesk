@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.esgi.findadesk.domain.Workspace;
-import fr.esgi.findadesk.domain.WorkspaceDao;
+import fr.esgi.findadesk.repository.IWorkspaceRepository;
 
 @RestController
 public class WorkspaceController {
 
 	@Autowired
-	private WorkspaceDao workSpaceDao;
+	private IWorkspaceRepository workSpaceDao;
 	
 	@RequestMapping("/workspaces")
     public List<Workspace> getAllUsers() 

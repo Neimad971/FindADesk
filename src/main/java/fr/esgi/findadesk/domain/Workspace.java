@@ -1,65 +1,97 @@
 package fr.esgi.findadesk.domain;
 
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToMany;
 
-import org.joda.time.DateTime;
-
-@Entity
-@Table(name = "workspace")
+@Entity(name = "workspace")
 public class Workspace 
 {
+	
+	
 	@Id
+	@Column(name = "workspace_id", nullable = false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String id;
+	private String workspaceId;
 	
-	@NotNull
-	private String type;
 	
-	@NotNull
+	@Column(name = "type", nullable = false)
+	private Long typeId;
+	
+	
+	@Column(name = "price", nullable = false)
 	private double price;
 	
-	@NotNull
+	
+	@Column(name = "seats_number", nullable = false)
 	private int seatsNumber;
 	
-	@NotNull
-	private DateTime availableDate;
-
-	@NotNull
+	
+	@Column(name = "description", nullable = false, length = 255)
 	private String description;
 	
-	@NotNull
-	private String bookedByUser;
+	@Column(name = "email_admin", nullable = false, length = 32)
+	private String userEmail;
+	
+	
+	@Column(name = "address", nullable = false, length = 50)
+	private String address;
+	
+	
+	@Column(name = "city", nullable = false, length = 32)
+	private String city;
+	
+	
+	@Column(name = "cp", nullable = false, length = 5)
+	private String zipCode;
+	
+	
+	@Column(name = "country", nullable = false, length = 20)
+	private String Country;
+	
+	
+	@Column(name = "longitude", nullable = false)
+	private double longitude;
+	
+	
+	@Column(name = "latitude", nullable = false)
+	private double latitude;
+	
+	
+	@ManyToMany(mappedBy="bookedWorkspace",fetch=FetchType.EAGER)
+    private List<User> userList;
 
 	
-	public String getId() 
+	public String getWorkspaceId() 
 	{
-		return id;
+		return workspaceId;
 	}
 
 	
-	public void setId(String id) 
+	public void setId(String workspaceId) 
 	{
-		this.id = id;
+		this.workspaceId = workspaceId;
 	}
 
-	
-	public String getType() 
+
+	public Long getTypeId() 
 	{
-		return type;
+		return typeId;
 	}
 
-	
-	public void setType(String type) 
+
+	public void setTypeId(Long typeId) 
 	{
-		this.type = type;
+		this.typeId = typeId;
 	}
 
-	
+
 	public double getPrice() 
 	{
 		return price;
@@ -84,18 +116,6 @@ public class Workspace
 	}
 
 	
-	public DateTime getAvailableDate() 
-	{
-		return availableDate;
-	}
-
-	
-	public void setAvailableDate(DateTime availableDate) 
-	{
-		this.availableDate = availableDate;
-	}
-
-	
 	public String getDescription() 
 	{
 		return description;
@@ -108,14 +128,86 @@ public class Workspace
 	}
 
 
-	public String getBookedByUser() 
+	public String getUserEmail() 
 	{
-		return bookedByUser;
+		return userEmail;
 	}
 
 
-	public void setBookedByUser(String bookedByUser) 
+	public void setUserEmail(String userEmail) 
 	{
-		this.bookedByUser = bookedByUser;
-	}	
+		this.userEmail = userEmail;
+	}
+
+
+	public String getAddress() 
+	{
+		return address;
+	}
+
+
+	public void setAddress(String address) 
+	{
+		this.address = address;
+	}
+
+
+	public String getCity() 
+	{
+		return city;
+	}
+
+
+	public void setCity(String city) 
+	{
+		this.city = city;
+	}
+
+
+	public String getZipCode() 
+	{
+		return zipCode;
+	}
+
+
+	public void setZipCode(String zipCode) 
+	{
+		this.zipCode = zipCode;
+	}
+
+
+	public String getCountry() 
+	{
+		return Country;
+	}
+
+
+	public void setCountry(String country) 
+	{
+		Country = country;
+	}
+
+
+	public double getLongitude() 
+	{
+		return longitude;
+	}
+
+
+	public void setLongitude(double longitude) 
+	{
+		this.longitude = longitude;
+	}
+
+
+	public double getLatitude() 
+	{
+		return latitude;
+	}
+
+
+	public void setLatitude(double latitude) 
+	{
+		this.latitude = latitude;
+	}
 }
