@@ -10,7 +10,8 @@ import fr.esgi.findadesk.domain.User;
 
 
 @RepositoryRestResource
-public interface IUserRepository extends CrudRepository<User, Integer>{
+public interface IUserRepository extends CrudRepository<User, Integer>
+{
 	
 	@Transactional
 	public List<User> findAll();

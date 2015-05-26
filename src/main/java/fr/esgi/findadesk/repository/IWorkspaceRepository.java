@@ -10,7 +10,8 @@ import fr.esgi.findadesk.domain.Workspace;
 
 
 @RepositoryRestResource
-public interface IWorkspaceRepository extends CrudRepository<Workspace, Integer>{
+public interface IWorkspaceRepository extends CrudRepository<Workspace, Integer>
+{
 	
 	@Transactional
 	public List<Workspace> findAll();

@@ -20,7 +20,7 @@ public class User
 	@Id
 	@Column(name = "user_id", nullable = false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long userId;
+	private Integer userId;
 
 	
 	@Column(name = "first_name", nullable = false,length = 32)
@@ -59,12 +59,12 @@ public class User
 	private List<Workspace> bookedWorkspace;
 	
 
-	public Long getUserId() 
+	public Integer getUserId() 
 	{
 		return userId;
 	}
 
-	public void setId(Long userId) 
+	public void setId(Integer userId) 
 	{
 		this.userId = userId;
 	}
