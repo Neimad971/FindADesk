@@ -3,12 +3,13 @@ package fr.esgi.findadesk.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.common.collect.Lists;
 
 import fr.esgi.findadesk.domain.User;
 import fr.esgi.findadesk.repository.IUserRepository;
@@ -28,24 +29,6 @@ public class UserController
     {
 		this.userRepository = userRepository;
 	}
-
-
-	public List<User> getFakeUsers() 
-    {
-		User su = new User();
-	    su.setFirstName("Damien");
-	    su.setLastName("TALBOT");
-	    su.setEmail("damientalbot26@email.com");
-	    su.setAddress("2 st...");
-	    su.setPassword("encrypted pwd");
-	    //su.setTelephone_number("9364204930");
-	    
-		
-		List<User> users = Lists.newArrayList();
-	    users.add(su);
-    	
-    	return users;
-    }
 	
     
     @RequestMapping(method = RequestMethod.GET)
@@ -69,12 +52,42 @@ public class UserController
     }
     
     
-	/*@RequestMapping("/findOne")
-	public User getUserByEmail(String email) 
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public User create(@RequestBody User user) 
 	{
-		return userRepository.findByEmail(email);
-	}*/
+		return userRepository.save(user);
+	}
+    
+    
+    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+    public User updateUser(@PathVariable Integer userId, @RequestBody User user) 
+	{	
+		User userToUpdate = userRepository.findOne(userId);
+		
+		if(userToUpdate == null)
+		{
+			throw new UserNotFoundException(userId);
+		}
+		
+		user.setId(userToUpdate.getUserId());
+		
+		return userRepository.save(user);
+	}
 	
-	
-	
+    
+	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable Integer userId) 
+	{	
+		User userToDelete = userRepository.findOne(userId);
+		
+		if(userToDelete == null)
+		{
+			throw new UserNotFoundException(userId);
+		}
+		
+		userRepository.delete(userToDelete);
+	}
 }

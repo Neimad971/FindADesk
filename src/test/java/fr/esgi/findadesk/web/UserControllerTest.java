@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
@@ -86,7 +87,7 @@ public class UserControllerTest extends CommonControllerTest
         		.contentType(contentType))
         		.andExpect(status().isOk())
         		.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$[0].userId", is(this.userList.get(0).getUserId().intValue())))
+        		.andExpect(MockMvcResultMatchers.jsonPath("$[0].userId", is(this.userList.get(0).getUserId())))
         		.andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName", is(this.userList.get(0).getFirstName())))
         		.andExpect(MockMvcResultMatchers.jsonPath("$[0].lastName", is(this.userList.get(0).getLastName())))
         		.andExpect(MockMvcResultMatchers.jsonPath("$[0].address", is(this.userList.get(0).getAddress())))
@@ -96,7 +97,7 @@ public class UserControllerTest extends CommonControllerTest
         		.andExpect(MockMvcResultMatchers.jsonPath("$[0].company", is(this.userList.get(0).getCompany())))
         		
     	
-		    	.andExpect(MockMvcResultMatchers.jsonPath("$[1].userId", is(this.userList.get(1).getUserId().intValue())))
+		    	.andExpect(MockMvcResultMatchers.jsonPath("$[1].userId", is(this.userList.get(1).getUserId())))
 				.andExpect(MockMvcResultMatchers.jsonPath("$[1].firstName", is(this.userList.get(1).getFirstName())))
 				.andExpect(MockMvcResultMatchers.jsonPath("$[1].lastName", is(this.userList.get(1).getLastName())))
 				.andExpect(MockMvcResultMatchers.jsonPath("$[1].address", is(this.userList.get(1).getAddress())))
@@ -107,26 +108,23 @@ public class UserControllerTest extends CommonControllerTest
     }
     
    
-    /*
     @Test
     public void readOneUser() throws Exception
     {
-    	mockMvc.perform(get("/users/" + userList.get(0).getId())
+    	mockMvc.perform(get("/users/" + userList.get(0).getUserId())
         		.content(this.json(new User()))
         		.contentType(contentType))
         		.andExpect(status().isOk())
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.id", is(this.userList.get(0).getId())))
+        		.andExpect(MockMvcResultMatchers.jsonPath("$.userId", is(this.userList.get(0).getUserId())))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.firstName", is(this.userList.get(0).getFirstName())))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.lastName", is(this.userList.get(0).getLastName())))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.nickName", is(this.userList.get(0).getNickName())))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.picture", is(this.userList.get(0).getPicture())))
+        		.andExpect(MockMvcResultMatchers.jsonPath("$.address", is(this.userList.get(0).getAddress())))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.email", is(this.userList.get(0).getEmail())))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.gender", is(this.userList.get(0).getGender())))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.profile", is(this.userList.get(0).getProfile())))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.userParams.languageToImprove", is(this.userList.get(0).getUserParams().getLanguageToImprove())))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.userParams.followedCountries", is(this.userList.get(0).getUserParams().getFollowedCountries())))
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.userParams.followedCategories", is(this.userList.get(0).getUserParams().getFollowedCategories())));
+        		.andExpect(MockMvcResultMatchers.jsonPath("$.password", is(this.userList.get(0).getPassword())))
+        		.andExpect(MockMvcResultMatchers.jsonPath("$.phoneNumber", is(this.userList.get(0).getPhoneNumber())))
+        		.andExpect(MockMvcResultMatchers.jsonPath("$.company", is(this.userList.get(0).getCompany())));
     }
+    
     
     
     @Test
@@ -144,38 +142,15 @@ public class UserControllerTest extends CommonControllerTest
     public void createUser() throws Exception 
     {
     	User userToCreate = new User();
-    	userToCreate.setId("20");
-    	userToCreate.setFirstName("John");
-    	userToCreate.setLastName("DOE");
-    	userToCreate.setNickName("Joe");
-    	userToCreate.setPicture("http link for picture");
-    	userToCreate.setEmail("joe@email.com");
-        //DateTime birthday = new DateTime();
-        //user.setBirthday(new DateTime());
-    	userToCreate.setGender("M");
-    	userToCreate.setProfile("http link for profile");
-        
-        List<String> spokenLang = Lists.newArrayList();
-        spokenLang.add("en");
-        
-        userToCreate.setCountry("America");
-        userToCreate.setSpokenLanguages(spokenLang);
-        
-        List<String> followedCategories = Lists.newArrayList();
-        followedCategories.add("health");
-        
-        List<String> followedCountries = Lists.newArrayList();
-        followedCountries.add("Spain");
-        
-        List<String> languageToImprove = Lists.newArrayList();
-        languageToImprove.add("Spanish");
-        
-        UserParams userParams = new UserParams();
-        userParams.setFollowedCategories(followedCategories);
-        userParams.setFollowedCountries(followedCountries);
-        userParams.setLanguageToImprove(languageToImprove);
-        userToCreate.setUserParams(userParams);
-       
+    	userToCreate.setFirstName("Lionel");
+    	userToCreate.setLastName("lienafa");
+    	userToCreate.setAddress("4 st...");
+    	userToCreate.setEmail("lienafa.lionel@gmail.com");
+    	userToCreate.setPassword("encrypted pwd3");
+    	userToCreate.setPhoneNumber("9364204937");
+    	userToCreate.setCompany("brand new company3");
+    	
+    	
         String userJson = json(userToCreate);
        
         this.mockMvc.perform(post("/users")
@@ -185,34 +160,36 @@ public class UserControllerTest extends CommonControllerTest
     }
     
     
+    
     @Test
     public void updateUser() throws Exception 
     {
     	User user = userList.get(0);
-    	user.setNickName("newNickname");
+    	user.setAddress("newAddress");
     	String userJson = json(user);
     	
-        this.mockMvc.perform(put("/users/" + userList.get(0).getId())
+        this.mockMvc.perform(put("/users/" + userList.get(0).getUserId())
                 .contentType(contentType)
                 .content(userJson))
                 .andExpect(status().isOk());
     }
     
     
-
+    
     @Test
     public void deleteUser() throws Exception 
     {
     	User user = userList.get(1);
     	String userJson = json(user);
     	
-        this.mockMvc.perform(put("/users/" + userList.get(1).getId())
+        this.mockMvc.perform(delete("/users/" + userList.get(1).getUserId())
                 .contentType(contentType)
                 .content(userJson))
                 .andExpect(status().isOk());
     }
     
     
+    /*
     @Test
     public void readAllUserTopics() throws Exception 
     {
