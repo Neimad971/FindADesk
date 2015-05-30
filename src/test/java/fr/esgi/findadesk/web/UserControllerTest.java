@@ -1,10 +1,10 @@
 package fr.esgi.findadesk.web;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
@@ -17,8 +17,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.google.common.collect.Lists;
 
+import fr.esgi.findadesk.domain.Booking;
 import fr.esgi.findadesk.domain.User;
+import fr.esgi.findadesk.domain.Workspace;
+import fr.esgi.findadesk.repository.IBookingRepository;
 import fr.esgi.findadesk.repository.IUserRepository;
+import fr.esgi.findadesk.repository.IWorkspaceRepository;
 
 
 public class UserControllerTest extends CommonControllerTest
@@ -30,11 +34,31 @@ public class UserControllerTest extends CommonControllerTest
   
     @Autowired
     private IUserRepository userRepository;
+    
+    
+    @Autowired
+	private IBookingRepository bookingRepository;
+    
+    
+    @Autowired
+	private IWorkspaceRepository workspaceRepository;
      
 
 	public void setUserRepository(IUserRepository userRepository) 
 	{
 		this.userRepository = userRepository;
+	}
+	
+	
+	public void setBookingRepository(IBookingRepository bookingRepository)
+	{
+		this.bookingRepository = bookingRepository;
+	}
+	
+	
+	public void setWorkspaceRepository(IWorkspaceRepository workspaceRepository)
+	{
+		this.workspaceRepository = workspaceRepository;
 	}
 
 
@@ -45,7 +69,9 @@ public class UserControllerTest extends CommonControllerTest
     {
         super.setup();
         
-        this.userRepository.deleteAll();
+        userRepository.deleteAll();
+        workspaceRepository.deleteAll();
+        bookingRepository.deleteAll();
         
         userList =  Lists.newArrayList(); 
         
@@ -58,6 +84,23 @@ public class UserControllerTest extends CommonControllerTest
         user1.setPhoneNumber("9364204930");
         user1.setCompany("brand new company");
         //bookedWorkspaces
+        
+        //BEGIN TEST
+        Workspace wksp = new Workspace();
+        wksp.setDescription("description");
+        workspaceRepository.save(wksp);
+        
+        
+        Booking b1 = new Booking();
+        b1.setUser(user1);
+        b1.setWorkspace(wksp);
+        bookingRepository.save(b1);
+        
+        List<Booking> bookings = Lists.newArrayList();
+        bookings.add(b1);
+        
+        user1.setBookings(bookings);
+        //END TEST
         
         User user2 = new User();
         user2.setFirstName("Hussam");
@@ -78,7 +121,7 @@ public class UserControllerTest extends CommonControllerTest
     }
     
     
-    
+    /*
     @Test
     public void readAllUsers() throws Exception
     {

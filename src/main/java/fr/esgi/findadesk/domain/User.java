@@ -1,6 +1,6 @@
 package fr.esgi.findadesk.domain;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,9 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity(name = "user")
 public class User 
@@ -51,20 +49,17 @@ public class User
 	private String company;
 	
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(name="booking", joinColumns=
-    	@JoinColumn(name="user_id", referencedColumnName="user_id"),inverseJoinColumns=
-    	@JoinColumn(name="workspace_id", referencedColumnName="workspace_id")
-    )
-	private List<Workspace> bookedWorkspace;
-	
+    @SuppressWarnings("rawtypes")
+	@OneToMany(mappedBy="user",targetEntity=Booking.class,fetch=FetchType.EAGER)
+    private Collection bookings;
+    
 
 	public Integer getUserId() 
 	{
 		return userId;
 	}
 
-	public void setId(Integer userId) 
+	public void setUserId(Integer userId) 
 	{
 		this.userId = userId;
 	}
@@ -139,13 +134,17 @@ public class User
 		this.company = company;
 	}
 
-	public List<Workspace> getBookedWorkspace() 
+
+	@SuppressWarnings("rawtypes")
+	public Collection getBookings()
 	{
-		return bookedWorkspace;
+		return bookings;
 	}
 
-	public void setBookedWorkspace(List<Workspace> bookedWorkspace) 
+	
+	@SuppressWarnings("rawtypes")
+	public void setBookings(Collection bookings)
 	{
-		this.bookedWorkspace = bookedWorkspace;
+		this.bookings = bookings;
 	}
 }

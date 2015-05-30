@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.findadesk.domain.Booking;
 import fr.esgi.findadesk.domain.User;
+import fr.esgi.findadesk.repository.IBookingRepository;
 import fr.esgi.findadesk.repository.IUserRepository;
 import fr.esgi.findadesk.web.exception.UserNotFoundException;
 
@@ -24,14 +26,24 @@ public class UserController
 	@Autowired
 	private IUserRepository userRepository;
 	
+	
+	@Autowired
+	private IBookingRepository bookingRepository;
+	
 		
     public void setUserRepository(IUserRepository userRepository) 
     {
 		this.userRepository = userRepository;
 	}
-	
     
-    @RequestMapping(method = RequestMethod.GET)
+
+	public void setBookingRepository(IBookingRepository bookingRepository)
+	{
+		this.bookingRepository = bookingRepository;
+	}
+
+
+	@RequestMapping(method = RequestMethod.GET)
     public List<User> getAllUsers() 
     {
     	return userRepository.findAll();
@@ -71,7 +83,7 @@ public class UserController
 			throw new UserNotFoundException(userId);
 		}
 		
-		user.setId(userToUpdate.getUserId());
+		user.setUserId(userToUpdate.getUserId());
 		
 		return userRepository.save(user);
 	}
@@ -90,4 +102,18 @@ public class UserController
 		
 		userRepository.delete(userToDelete);
 	}
+	
+	
+	@RequestMapping(value = "/{userId}/bookings", method = RequestMethod.GET)
+    public List<Booking> getAllUserBookings(@PathVariable Integer userId) 
+    {
+		User user = userRepository.findOne(userId);
+		
+		if(user == null)
+		{
+			throw new UserNotFoundException(userId);
+		}
+		
+		return bookingRepository.findByUser(user);
+    }
 }

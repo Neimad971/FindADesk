@@ -1,14 +1,12 @@
 package fr.esgi.findadesk.domain;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity(name = "workspace")
 public class Workspace 
@@ -64,9 +62,14 @@ public class Workspace
 	private double latitude;
 	
 	
-	@ManyToMany(mappedBy="bookedWorkspace",fetch=FetchType.EAGER)
-    private List<User> userList;
-
+	@Column(name = "booking_id")
+    private Integer bookingId;
+	
+	
+	@OneToOne(optional=true)
+    @JoinColumn(name = "booking_id",insertable=false, updatable=false) 
+    private Booking booking;
+	
 	
 	public String getWorkspaceId() 
 	{
