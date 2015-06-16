@@ -10,7 +10,8 @@ import fr.esgi.findadesk.domain.Workspace;
 import fr.esgi.findadesk.repository.IWorkspaceRepository;
 
 @RestController
-public class WorkspaceController {
+public class WorkspaceController 
+{
 
 	@Autowired
 	private IWorkspaceRepository workSpaceDao;

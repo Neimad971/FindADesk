@@ -1,12 +1,14 @@
 package fr.esgi.findadesk.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity(name = "workspace")
 public class Workspace 
@@ -16,7 +18,7 @@ public class Workspace
 	@Id
 	@Column(name = "workspace_id", nullable = false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String workspaceId;
+	private Integer workspaceId;
 	
 	
 	@Column(name = "type", nullable = false)
@@ -62,22 +64,17 @@ public class Workspace
 	private double latitude;
 	
 	
-	@Column(name = "booking_id")
-    private Integer bookingId;
+	@OneToMany(mappedBy="workspace",targetEntity=Booking.class,fetch=FetchType.EAGER)
+    private List<Booking> bookings;
 	
 	
-	@OneToOne(optional=true)
-    @JoinColumn(name = "booking_id",insertable=false, updatable=false) 
-    private Booking booking;
-	
-	
-	public String getWorkspaceId() 
+	public Integer getWorkspaceId() 
 	{
 		return workspaceId;
 	}
 
 	
-	public void setId(String workspaceId) 
+	public void setId(Integer workspaceId) 
 	{
 		this.workspaceId = workspaceId;
 	}
@@ -212,5 +209,17 @@ public class Workspace
 	public void setLatitude(double latitude) 
 	{
 		this.latitude = latitude;
+	}
+
+
+	public List<Booking> getBookings() 
+	{
+		return bookings;
+	}
+
+
+	public void setBookings(List<Booking> bookings) 
+	{
+		this.bookings = bookings;
 	}
 }

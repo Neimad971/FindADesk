@@ -1,13 +1,9 @@
 package fr.esgi.findadesk.web;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -23,6 +19,21 @@ import fr.esgi.findadesk.domain.Workspace;
 import fr.esgi.findadesk.repository.IBookingRepository;
 import fr.esgi.findadesk.repository.IUserRepository;
 import fr.esgi.findadesk.repository.IWorkspaceRepository;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+/*
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+*/
 
 
 public class UserControllerTest extends CommonControllerTest
@@ -62,7 +73,7 @@ public class UserControllerTest extends CommonControllerTest
 	}
 
 
-
+	@Transactional
 	@Override
     @Before
     public void setup() throws Exception 
@@ -73,7 +84,7 @@ public class UserControllerTest extends CommonControllerTest
         workspaceRepository.deleteAll();
         bookingRepository.deleteAll();
         
-        userList =  Lists.newArrayList(); 
+        userList =  Lists.newArrayList();
         
         User user1 = new User();
         user1.setFirstName("Damien");
@@ -84,45 +95,59 @@ public class UserControllerTest extends CommonControllerTest
         user1.setPhoneNumber("9364204930");
         user1.setCompany("brand new company");
         //bookedWorkspaces
+        userRepository.save(user1);
         
         //BEGIN TEST
         Workspace wksp = new Workspace();
         wksp.setDescription("description");
+        wksp.setCountry("USA");
+        wksp.setAddress("120 street something");
+        wksp.setCity("LA");
+        wksp.setZipCode("27000");
+        wksp.setTypeId(2L);
+        wksp.setUserEmail("admin@gmail.com");
         workspaceRepository.save(wksp);
         
         
         Booking b1 = new Booking();
         b1.setUser(user1);
+        b1.setBegin(new Date());
+        b1.setEnd(new Date());
         b1.setWorkspace(wksp);
         bookingRepository.save(b1);
         
         List<Booking> bookings = Lists.newArrayList();
         bookings.add(b1);
-        
         user1.setBookings(bookings);
+        
+        
+        List<User> fromDb = userRepository.findAll(); //that's ok
+        
+        
+      
         //END TEST
         
-        User user2 = new User();
+        /*User user2 = new User();
         user2.setFirstName("Hussam");
         user2.setLastName("chaudhry");
         user2.setAddress("3 st...");
         user2.setEmail("chaudhry.hussam@gmail.com");
         user2.setPassword("encrypted pwd2");
         user2.setPhoneNumber("9364204931");
-        user2.setCompany("brand new company2");
+        user2.setCompany("brand new company2");*/
         //bookedWorkspaces
         
         
-        userList.add(user1);
-        userList.add(user2);
+        //userList.add(user1);
+        //userList.add(user2);
         
-        userRepository.save(userList.get(0));
-        userRepository.save(userList.get(1));
+        //userRepository.save(userList.get(0));
+        //userRepository.save(userList.get(1));
     }
     
     
-    /*
-    @Test
+    
+    /*@Test
     public void readAllUsers() throws Exception
     {
     	mockMvc.perform(get("/users")

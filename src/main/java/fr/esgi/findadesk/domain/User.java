@@ -1,6 +1,6 @@
 package fr.esgi.findadesk.domain;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +51,7 @@ public class User
 	
     @SuppressWarnings("rawtypes")
 	@OneToMany(mappedBy="user",targetEntity=Booking.class,fetch=FetchType.EAGER)
-    private Collection bookings;
+    private List<Booking> bookings;
     
 
 	public Integer getUserId() 
@@ -136,14 +136,14 @@ public class User
 
 
 	@SuppressWarnings("rawtypes")
-	public Collection getBookings()
+	public List<Booking> getBookings()
 	{
 		return bookings;
 	}
 
 	
 	@SuppressWarnings("rawtypes")
-	public void setBookings(Collection bookings)
+	public void setBookings(List<Booking> bookings)
 	{
 		this.bookings = bookings;
 	}
