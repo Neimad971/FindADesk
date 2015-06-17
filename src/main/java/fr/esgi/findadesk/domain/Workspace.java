@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "workspace")
 public class Workspace 
 {
@@ -65,6 +67,7 @@ public class Workspace
 	
 	
 	@OneToMany(mappedBy="workspace",targetEntity=Booking.class,fetch=FetchType.EAGER)
+	@JsonIgnore
     private List<Booking> bookings;
 	
 	

@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "user")
 public class User 
 {
@@ -51,6 +53,7 @@ public class User
 	
     @SuppressWarnings("rawtypes")
 	@OneToMany(mappedBy="user",targetEntity=Booking.class,fetch=FetchType.EAGER)
+    @JsonIgnore
     private List<Booking> bookings;
     
 
