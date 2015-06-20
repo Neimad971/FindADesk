@@ -23,7 +23,7 @@ public class Workspace
 	private Integer workspaceId;
 	
 	
-	@Column(name = "type", nullable = false)
+	@Column(name = "workspace_type_id", nullable = false)
 	private Long typeId;
 	
 	
