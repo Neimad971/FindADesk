@@ -68,9 +68,9 @@ public class Workspace
 	private double latitude;
 	
 	
-	//@OneToMany(mappedBy="workspace",targetEntity=Booking.class,fetch=FetchType.EAGER)
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinColumn(name="workspace_id")
+	@OneToMany(mappedBy="workspace",targetEntity=Booking.class,fetch=FetchType.EAGER)
+	//@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    //@JoinColumn(name="workspace_id")
 	@JsonIgnore
     private List<Booking> bookings;
 	

@@ -54,7 +54,7 @@ public class User
 	
 	
     @SuppressWarnings("rawtypes")
-	@OneToMany(mappedBy="user",targetEntity=Booking.class)//,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="user",targetEntity=Booking.class,fetch=FetchType.EAGER)
     //@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     //@JoinColumn(name="user_id")
     @JsonIgnore
