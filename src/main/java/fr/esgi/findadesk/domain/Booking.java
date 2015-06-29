@@ -2,6 +2,7 @@ package fr.esgi.findadesk.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,20 +21,25 @@ public class Booking
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer bookingId;
 	
+	
 	@Column(name = "start_date")
 	private Date begin;
+	
 	
 	@Column(name = "finish_date")
 	private Date end;
 	
 	
-	@ManyToOne//(optional=false)
-    @JoinColumn(name="user_id",referencedColumnName="user_id")//, insertable=false, updatable=false)
+	@ManyToOne
+    @JoinColumn(name="user_id")//,referencedColumnName="user_id")
+	//@ManyToOne(cascade=CascadeType.ALL)
     private User user;
 	
 	
-	@ManyToOne//(optional=false)
-    @JoinColumn(name="workspace_id",referencedColumnName="workspace_id")//, insertable=false, updatable=false)
+	
+	@ManyToOne
+    @JoinColumn(name="workspace_id", nullable=false)//,referencedColumnName="workspace_id")
+	//@ManyToOne(cascade=CascadeType.ALL)
 	private Workspace workspace;
 
 
@@ -72,7 +78,8 @@ public class Booking
 		this.end = end;
 	}
 
-
+	
+	
 	public User getUser() 
 	{
 		return user;
@@ -83,7 +90,7 @@ public class Booking
 	{
 		this.user = user;
 	}
-
+	
 
 	public Workspace getWorkspace() 
 	{
