@@ -2,7 +2,6 @@ package fr.esgi.findadesk.domain;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,14 +31,12 @@ public class Booking
 	
 	@ManyToOne
     @JoinColumn(name="user_id", nullable=false, referencedColumnName="user_id")
-	//@ManyToOne(cascade=CascadeType.ALL)
     private User user;
 	
 	
 	
 	@ManyToOne
     @JoinColumn(name="workspace_id", nullable=false, referencedColumnName="workspace_id")
-	//@ManyToOne(cascade=CascadeType.ALL)
 	private Workspace workspace;
 
 

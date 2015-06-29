@@ -2,14 +2,12 @@ package fr.esgi.findadesk.domain;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -69,8 +67,6 @@ public class Workspace
 	
 	
 	@OneToMany(mappedBy="workspace",targetEntity=Booking.class,fetch=FetchType.EAGER)
-	//@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    //@JoinColumn(name="workspace_id")
 	@JsonIgnore
     private List<Booking> bookings;
 	
