@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity(name = "booking")
 public class Booking 
 {
@@ -22,10 +24,12 @@ public class Booking
 	
 	
 	@Column(name = "start_date")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date begin;
 	
 	
 	@Column(name = "finish_date")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date end;
 	
 	
