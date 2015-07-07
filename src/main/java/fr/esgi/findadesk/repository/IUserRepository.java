@@ -18,4 +18,7 @@ public interface IUserRepository extends CrudRepository<User, Integer>
 	
 	@Transactional
 	public User findByEmail(String email);
+	
+	@Transactional
+	public User findByEmailAndPassword(String email, String password);
 }

@@ -1,5 +1,6 @@
 package fr.esgi.findadesk.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,4 +117,19 @@ public class UserController
 		
 		return bookingRepository.findByUser(user);
     }
+	
+	@RequestMapping(value = "/{email}/{password}", method = RequestMethod.GET)
+	public List<User> getUserByEmailAndPasswors(@PathVariable String email, @PathVariable String password) {
+		
+		User user = userRepository.findByEmailAndPassword(email, password);
+		ArrayList<User> users = new ArrayList<User>();
+		
+		if (user == null) {
+			return users;
+		}
+		
+		users.add(user);
+		
+		return users;
+	}
 }
