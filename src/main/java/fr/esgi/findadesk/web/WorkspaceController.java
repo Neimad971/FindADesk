@@ -17,7 +17,7 @@ public class WorkspaceController {
 	private IWorkspaceRepository workSpaceDao;
 
 	@RequestMapping("/workspaces")
-	public List<Workspace> getAllUsers() {
+	public List<Workspace> getAllWorkspaces() {
 		return workSpaceDao.findAll();
 	}
 
@@ -27,4 +27,6 @@ public class WorkspaceController {
 			@PathVariable double minPrice, @PathVariable double maxPrice) {
 		return workSpaceDao.findWorkspacesForListing(typeId, city, seats, minPrice, maxPrice);
 	}
+	
+	
 }
