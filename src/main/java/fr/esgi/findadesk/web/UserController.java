@@ -18,118 +18,115 @@ import fr.esgi.findadesk.repository.IBookingRepository;
 import fr.esgi.findadesk.repository.IUserRepository;
 import fr.esgi.findadesk.web.exception.UserNotFoundException;
 
-
 @RestController
 @RequestMapping("/users")
-public class UserController 
-{
-	
+public class UserController {
+
 	@Autowired
 	private IUserRepository userRepository;
-	
-	
+
 	@Autowired
 	private IBookingRepository bookingRepository;
-	
-		
-    public void setUserRepository(IUserRepository userRepository) 
-    {
+
+	public void setUserRepository(IUserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-    
 
-	public void setBookingRepository(IBookingRepository bookingRepository)
-	{
+	public void setBookingRepository(IBookingRepository bookingRepository) {
 		this.bookingRepository = bookingRepository;
 	}
 
-
 	@RequestMapping(method = RequestMethod.GET)
-    public List<User> getAllUsers() 
-    {
-    	return userRepository.findAll();
-    }
-    
-    
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable Integer userId)
-	{
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	public User getUserById(@PathVariable Integer userId) {
 		User user = userRepository.findOne(userId);
-		
-		if(user == null)
-		{
+
+		if (user == null) {
 			throw new UserNotFoundException(userId);
 		}
-		
-		return user;			
-    }
-    
-    
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody User user) 
-	{
+
+		return user;
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public User create(@RequestBody User user) {
 		return userRepository.save(user);
 	}
-    
-    
-    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
+
+	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
-    public User updateUser(@PathVariable Integer userId, @RequestBody User user) 
-	{	
+	public User updateUser(@PathVariable Integer userId, @RequestBody User user) {
 		User userToUpdate = userRepository.findOne(userId);
-		
-		if(userToUpdate == null)
-		{
+
+		if (userToUpdate == null) {
 			throw new UserNotFoundException(userId);
 		}
-		
+
 		user.setUserId(userToUpdate.getUserId());
-		
+
 		return userRepository.save(user);
 	}
-	
-    
+
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable Integer userId) 
-	{	
+	public void deleteUser(@PathVariable Integer userId) {
 		User userToDelete = userRepository.findOne(userId);
-		
-		if(userToDelete == null)
-		{
+
+		if (userToDelete == null) {
 			throw new UserNotFoundException(userId);
 		}
-		
+
 		userRepository.delete(userToDelete);
 	}
-	
-	
+
 	@RequestMapping(value = "/{userId}/bookings", method = RequestMethod.GET)
-    public List<Booking> getAllUserBookings(@PathVariable Integer userId) 
-    {
+	public List<Booking> getAllUserBookings(@PathVariable Integer userId) {
 		User user = userRepository.findOne(userId);
-		
-		if(user == null)
-		{
+
+		if (user == null) {
 			throw new UserNotFoundException(userId);
 		}
-		
+
 		return bookingRepository.findByUser(user);
-    }
-	
+	}
+
 	@RequestMapping(value = "/{email}/{password}", method = RequestMethod.GET)
-	public List<User> getUserByEmailAndPasswors(@PathVariable String email, @PathVariable String password) {
-		
+	public List<User> getUserByEmailAndPasswors(@PathVariable String email,
+			@PathVariable String password) {
+
 		User user = userRepository.findByEmailAndPassword(email, password);
 		ArrayList<User> users = new ArrayList<User>();
-		
+
 		if (user == null) {
 			return users;
 		}
-		
+
 		users.add(user);
+
+		return users;
+	}
+
+	@RequestMapping(value = "/create/{firstName}/{lastName}/{address}/{email}/{password}/{telephone_number}/{company}", method = RequestMethod.GET)
+	public List<User> createUser(@PathVariable String firstName,
+			@PathVariable String lastName, @PathVariable String address,
+			@PathVariable String email, @PathVariable String password,
+			@PathVariable String telephone_number, @PathVariable String company) {
+
+		User user = userRepository.save(new User(firstName, lastName, address, email, password, telephone_number, company));
 		
+		ArrayList<User> users = new ArrayList<User>();
+
+		if (user == null) {
+			return users;
+		}
+
+		users.add(user);
+
 		return users;
 	}
 }

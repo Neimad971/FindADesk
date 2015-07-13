@@ -31,7 +31,7 @@ public class User
 	private String lastName;
 	
 	
-	@Column(name = "address", nullable = false,length = 255)
+	@Column(name = "address", nullable = true,length = 255)
 	private String address;
 	
 	
@@ -56,6 +56,20 @@ public class User
     @JsonIgnore
     private List<Booking> bookings;
     
+    public User() {
+    	
+    }
+    
+	public User(String firstName, String lastName, String address,
+			String email, String password, String phoneNumber, String company) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.email = email;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.company = company;
+	}
 
 	public Integer getUserId() 
 	{
