@@ -42,6 +42,20 @@ public class Booking
 	@ManyToOne
     @JoinColumn(name="workspace_id", nullable=false, referencedColumnName="workspace_id")
 	private Workspace workspace;
+	
+	
+	public Booking()
+	{
+		
+	}
+
+	public Booking(Date begin, Date end, User user, Workspace workspace) {
+		super();
+		this.begin = begin;
+		this.end = end;
+		this.user = user;
+		this.workspace = workspace;
+	}
 
 
 	public Integer getBookingId() 
