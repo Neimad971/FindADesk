@@ -21,7 +21,7 @@ public interface IWorkspaceRepository extends
 	public List<Workspace> findWorkspaceLocations();
 
 	
-	@Query(value = "SELECT w FROM workspace w WHERE w.typeId = :type AND w.city = :city AND w.seatsNumber = :seatsNumber "
+	@Query(value = "SELECT w FROM workspace w WHERE w.typeId = :type AND w.city = :city AND w.seatsNumber >= :seatsNumber "
 			+ "AND w.price BETWEEN :minPrice AND :maxPrice")
 	public List<Workspace> findWorkspacesForListing(@Param("type") Long type,
 			@Param("city") String city, @Param("seatsNumber") int seatsNumber,
