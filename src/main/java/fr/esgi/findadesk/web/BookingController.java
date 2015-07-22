@@ -58,12 +58,13 @@ public class BookingController {
 		return bookingRepository.save(booking);
 	}
 
-	@RequestMapping(value = "/save/{userId}/{workspaceId}/{begin}/{end}/{dateBooking}", method = RequestMethod.GET)
+	@RequestMapping(value = "/save/{userId}/{workspaceId}/{begin}/{end}/{dateBooking}/{price}", method = RequestMethod.GET)
 	public List<Booking> saveBooking(@PathVariable Integer userId,
 			@PathVariable Integer workspaceId,
 			@PathVariable @DateTimeFormat(iso = ISO.DATE) String begin,
 			@PathVariable @DateTimeFormat(iso = ISO.DATE) String end,
-			@PathVariable @DateTimeFormat(iso = ISO.DATE) String dateBooking) {
+			@PathVariable @DateTimeFormat(iso = ISO.DATE) String dateBooking,
+			@PathVariable double price) {
 
 		User u = new User();
 		u = userRepository.findOne(userId);
@@ -71,20 +72,22 @@ public class BookingController {
 		Workspace w = new Workspace();
 		w = workspaceRepository.findOne(workspaceId);
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date beginDate = null;
 		Date endDate = null;
+		Date bookingDate = null;
 	 
 		try {
 	 
 			beginDate = formatter.parse(begin);
 			endDate = formatter.parse(end);
+			bookingDate = formatter.parse(dateBooking);
 	 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		Booking b = bookingRepository.save(new Booking(beginDate, endDate, u, w));
+		Booking b = bookingRepository.save(new Booking(beginDate, endDate, bookingDate, price, u, w));
 
 		ArrayList<Booking> bookings = new ArrayList<Booking>();
 

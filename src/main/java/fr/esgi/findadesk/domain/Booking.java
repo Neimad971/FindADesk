@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Booking 
 {
 
-	
 	@Id
 	@Column(name = "booking_id", nullable = false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -31,6 +30,13 @@ public class Booking
 	@Column(name = "finish_date")
 	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date end;
+	
+	@Column(name = "date_booking")
+	@JsonFormat(pattern="dd/MM/yyyy")
+	private Date bookingDate;
+	
+	@Column(name = "price_booking")
+	private double price;
 	
 	
 	@ManyToOne
@@ -49,10 +55,12 @@ public class Booking
 		
 	}
 
-	public Booking(Date begin, Date end, User user, Workspace workspace) {
+	public Booking(Date begin, Date end, Date bookingDate, double price, User user, Workspace workspace) {
 		super();
 		this.begin = begin;
 		this.end = end;
+		this.bookingDate = bookingDate;
+		this.price = price;
 		this.user = user;
 		this.workspace = workspace;
 	}
@@ -92,9 +100,23 @@ public class Booking
 	{
 		this.end = end;
 	}
+	
+	public Date getBookingDate() {
+		return bookingDate;
+	}
 
-	
-	
+	public void setBookingDate(Date bookingDate) {
+		this.bookingDate = bookingDate;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public User getUser() 
 	{
 		return user;
